@@ -8,3 +8,40 @@
 /build
 /captures
 /.idea
+# built application files
+*.ap_
+
+# files for the dex VM
+*.dex
+
+# Java class files
+*.class
+
+# generated files
+bin/
+gen/
+
+# Local configuration file (sdk path, etc)
+local.properties
+
+# Android Studio
+.idea/
+.gradle
+/*/local.properties
+/*/out
+/*/*/build
+/*/build
+build/
+/*/*/production
+*.iml
+*.iws
+*.ipr
+*~
+*.swp
+release/
+# OS X
+*.DS_Store
+/app/mirror
+/app/src/main/res/values/com_crashlytics_export_strings.xml
+*crashlytics-build.properties
+
