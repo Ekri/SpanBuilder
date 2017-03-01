@@ -3,13 +3,15 @@ package com.maciega.bartosz.spanbuilder.spans.builders;
 import android.os.Parcel;
 import android.text.style.BackgroundColorSpan;
 
+import com.maciega.bartosz.spanbuilder.spans.SpanProxy;
 import com.maciega.bartosz.spanbuilder.spans.SpanTypeBuilder;
+import com.maciega.bartosz.spanbuilder.spans.SpannableBuilder;
 
 /**
  * Created by bartoszmaciega on 28/02/17.
  */
 
-public class BackgroundColorSpanBuilder implements SpanTypeBuilder<BackgroundColorSpan> {
+public class BackgroundColorSpanBuilder implements SpanTypeBuilder {
 
     private BackgroundColorSpan span;
 
@@ -23,7 +25,8 @@ public class BackgroundColorSpanBuilder implements SpanTypeBuilder<BackgroundCol
 
 
     @Override
-    public BackgroundColorSpan create() {
-        return span;
+    public SpannableBuilder make(SpanProxy proxy) {
+        proxy.getSpannable().setSpan(span, proxy.startIndex(), proxy.endIndex(), proxy.flags());
+        return proxy.send();
     }
 }
