@@ -1,8 +1,8 @@
 package com.maciega.bartosz.spanbuilder.spans;
 
 import android.text.SpannableStringBuilder;
-import android.text.Spanned;
-import android.text.style.BackgroundColorSpan;
+
+import com.maciega.bartosz.spanbuilder.spans.builders.BackgroundColorSpanBuilder;
 
 /**
  * Created by bartoszmaciega on 28/02/17.
@@ -28,8 +28,13 @@ public class SpannableBuilder {
     }
 
     public SpannableBuilder withBackgroundColor(int color) {
-        spannableBuilder.setSpan(new BackgroundColorSpan(color), 0, text.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-        return this;
+        BackgroundColorSpanBuilder builder = new BackgroundColorSpanBuilder(color);
+        return builder.make(createProxy(0, text.length()));
+    }
+
+    //TODO rethink flags
+    private SpanProxy createProxy(int start, int end) {
+        return new SpanProxy(this, text, start, end);
     }
 
 }
