@@ -1,5 +1,6 @@
 package com.maciega.bartosz.spanbuilder.spans;
 
+import android.graphics.MaskFilter;
 import android.os.Parcel;
 import android.text.SpannableStringBuilder;
 import android.text.method.LinkMovementMethod;
@@ -9,6 +10,8 @@ import android.widget.TextView;
 import com.maciega.bartosz.spanbuilder.spans.builders.BackgroundColorSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.ClickableSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.ForegroundColorSpanBuilder;
+import com.maciega.bartosz.spanbuilder.spans.builders.MaskFilterSpanBuilder;
+import com.maciega.bartosz.spanbuilder.spans.builders.UrlSpanBuilder;
 
 /**
  * Created by bartoszmaciega on 28/02/17.
@@ -17,7 +20,6 @@ import com.maciega.bartosz.spanbuilder.spans.builders.ForegroundColorSpanBuilder
 /**
  * Things to do:
  * - add span flags
- *
  */
 
 public class SpannableBuilder {
@@ -68,11 +70,29 @@ public class SpannableBuilder {
         return builder.make(createProxy(start, end));
     }
 
+    public SpannableBuilder withUrl(String url, int start, int end) {
+        UrlSpanBuilder builder = new UrlSpanBuilder(url);
+        if (textView != null) {
+            textView.setMovementMethod(LinkMovementMethod.getInstance());
+        }
+        return builder.make(createProxy(start, end));
+    }
+
+
+    public SpannableBuilder withMask(MaskFilter mask) {
+        MaskFilterSpanBuilder builder = new MaskFilterSpanBuilder(mask);
+        return builder.make(createProxy(0, text.length()));
+    }
+
 
     public SpannableStringBuilder get() {
         return spannableBuilder;
     }
 
+    /**
+     * If want to use textView directly with view this method must be invoked at the beginning of a chain
+     * in order to retain all functionality
+     */
     public SpannableBuilder withView(TextView textView) {
         this.textView = textView;
         return this;

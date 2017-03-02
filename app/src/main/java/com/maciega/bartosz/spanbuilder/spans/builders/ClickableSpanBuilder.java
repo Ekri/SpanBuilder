@@ -11,8 +11,7 @@ import com.maciega.bartosz.spanbuilder.spans.SpannableBuilder;
  * Created by bartoszmaciega on 28/02/17.
  */
 
-public class ClickableSpanBuilder implements SpanTypeBuilder {
-    ClickableSpan span;
+public class ClickableSpanBuilder extends AbstractSpanTypeBuilder<ClickableSpan> {
 
     private View.OnClickListener listener;
 

@@ -11,9 +11,7 @@ import com.maciega.bartosz.spanbuilder.spans.SpannableBuilder;
  * Created by bartoszmaciega on 28/02/17.
  */
 
-public class BackgroundColorSpanBuilder implements SpanTypeBuilder {
-
-    private BackgroundColorSpan span;
+public class BackgroundColorSpanBuilder extends AbstractSpanTypeBuilder<BackgroundColorSpan> {
 
     public BackgroundColorSpanBuilder(int color) {
         span = new BackgroundColorSpan(color);
