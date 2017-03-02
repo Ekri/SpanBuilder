@@ -14,6 +14,12 @@ import com.maciega.bartosz.spanbuilder.spans.builders.ForegroundColorSpanBuilder
  * Created by bartoszmaciega on 28/02/17.
  */
 
+/**
+ * Things to do:
+ * - add span flags
+ *
+ */
+
 public class SpannableBuilder {
     private SpannableStringBuilder spannableBuilder;
     private String text;
@@ -82,6 +88,10 @@ public class SpannableBuilder {
     //TODO rethink flags
     private SpanProxy createProxy(int start, int end) {
         return new SpanProxy(this, text, start, end);
+    }
+
+    private SpanProxy createProxy(int start, int end, int flags) {
+        return new SpanProxy(this, text, start, end, flags);
     }
 
 }
