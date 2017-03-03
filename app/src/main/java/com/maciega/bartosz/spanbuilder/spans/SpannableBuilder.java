@@ -1,6 +1,9 @@
 package com.maciega.bartosz.spanbuilder.spans;
 
+import android.annotation.TargetApi;
 import android.graphics.MaskFilter;
+import android.os.Build;
+import android.os.LocaleList;
 import android.os.Parcel;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -12,8 +15,12 @@ import com.maciega.bartosz.spanbuilder.spans.builders.AbsoluteSizeSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.BackgroundColorSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.ClickableSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.ForegroundColorSpanBuilder;
+import com.maciega.bartosz.spanbuilder.spans.builders.LocaleSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.MaskFilterSpanBuilder;
+import com.maciega.bartosz.spanbuilder.spans.builders.RelativeSizeSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.UrlSpanBuilder;
+
+import java.util.Locale;
 
 /**
  * Created by bartoszmaciega on 28/02/17.
@@ -54,22 +61,22 @@ public class SpannableBuilder {
 
     public SpannableBuilder withBackgroundColor(int color) {
         BackgroundColorSpanBuilder builder = new BackgroundColorSpanBuilder(color);
-        return builder.make(getDefaultProxy());
+        return makeSpan(builder);
     }
 
     public SpannableBuilder withBackgroundColor(Parcel src) {
         BackgroundColorSpanBuilder builder = new BackgroundColorSpanBuilder(src);
-        return builder.make(getDefaultProxy());
+        return makeSpan(builder);
     }
 
     public SpannableBuilder withForegroundColor(int color) {
         ForegroundColorSpanBuilder builder = new ForegroundColorSpanBuilder(color);
-        return builder.make(getDefaultProxy());
+        return makeSpan(builder);
     }
 
     public SpannableBuilder withForegroundColor(Parcel src) {
         ForegroundColorSpanBuilder builder = new ForegroundColorSpanBuilder(src);
-        return builder.make(getDefaultProxy());
+        return makeSpan(builder);
     }
 
     public SpannableBuilder withClickable(View.OnClickListener listener) {
@@ -77,7 +84,7 @@ public class SpannableBuilder {
         if (textView != null) {
             textView.setMovementMethod(LinkMovementMethod.getInstance());
         }
-        return builder.make(getDefaultProxy());
+        return makeSpan(builder);
     }
 
     public SpannableBuilder withUrl(String url) {
@@ -85,28 +92,54 @@ public class SpannableBuilder {
         if (textView != null) {
             textView.setMovementMethod(LinkMovementMethod.getInstance());
         }
-        return builder.make(getDefaultProxy());
+        return makeSpan(builder);
     }
-
 
     public SpannableBuilder withMask(MaskFilter mask) {
         MaskFilterSpanBuilder builder = new MaskFilterSpanBuilder(mask);
-        return builder.make(getDefaultProxy());
+        return makeSpan(builder);
     }
 
     public SpannableBuilder withAbsoluteSize(int size) {
         AbsoluteSizeSpanBuilder builder = new AbsoluteSizeSpanBuilder(size, false);
-        return builder.make(getDefaultProxy());
+        return makeSpan(builder);
     }
 
     public SpannableBuilder withAbsoluteSize(int size, boolean dip) {
         AbsoluteSizeSpanBuilder builder = new AbsoluteSizeSpanBuilder(size, dip);
-        return builder.make(getDefaultProxy());
+        return makeSpan(builder);
     }
 
     public SpannableBuilder withAbsoluteSize(Parcel src) {
         AbsoluteSizeSpanBuilder builder = new AbsoluteSizeSpanBuilder(src);
-        return builder.make(getDefaultProxy());
+        return makeSpan(builder);
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+    public SpannableBuilder withLocale(Locale locale) {
+        LocaleSpanBuilder builder = new LocaleSpanBuilder(locale);
+        return makeSpan(builder);
+    }
+
+    @TargetApi(Build.VERSION_CODES.N)
+    public SpannableBuilder withLocale(LocaleList localeList) {
+        LocaleSpanBuilder builder = new LocaleSpanBuilder(localeList);
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withLocale(Parcel src) {
+        LocaleSpanBuilder builder = new LocaleSpanBuilder(src);
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withRelative(float proportion) {
+        RelativeSizeSpanBuilder builder = new RelativeSizeSpanBuilder(proportion);
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withRelative(Parcel src) {
+        RelativeSizeSpanBuilder builder = new RelativeSizeSpanBuilder(src);
+        return makeSpan(builder);
     }
 
 
@@ -167,6 +200,10 @@ public class SpannableBuilder {
 
     private SpanProxy createProxy(int start, int end, int flags) {
         return new SpanProxy(this, text, start, end, flags);
+    }
+
+    private SpannableBuilder makeSpan(SpanTypeBuilder builder) {
+        return builder.make(getDefaultProxy());
     }
 
 }

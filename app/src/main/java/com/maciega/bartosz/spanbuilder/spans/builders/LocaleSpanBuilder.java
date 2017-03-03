@@ -2,10 +2,9 @@ package com.maciega.bartosz.spanbuilder.spans.builders;
 
 import android.annotation.TargetApi;
 import android.os.Build;
+import android.os.LocaleList;
+import android.os.Parcel;
 import android.text.style.LocaleSpan;
-
-import com.maciega.bartosz.spanbuilder.spans.SpanProxy;
-import com.maciega.bartosz.spanbuilder.spans.SpannableBuilder;
 
 import java.util.Locale;
 
@@ -15,13 +14,18 @@ import java.util.Locale;
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class LocaleSpanBuilder extends AbstractSpanTypeBuilder<LocaleSpan> {
 
-    public LocaleSpanBuilder(Locale locale){
+    public LocaleSpanBuilder(Locale locale) {
         span = new LocaleSpan(locale);
     }
 
-    @Override
-    public SpannableBuilder make(SpanProxy proxy) {
-        proxy.getSpannable().setSpan(span,proxy.startIndex(),proxy.endIndex(),proxy.flags());
-        return proxy.send();
+    @TargetApi(Build.VERSION_CODES.N)
+    public LocaleSpanBuilder(LocaleList localeList) {
+        span = new LocaleSpan(localeList);
     }
+
+    public LocaleSpanBuilder(Parcel parcel) {
+        span = new LocaleSpan(parcel);
+    }
+
+
 }
