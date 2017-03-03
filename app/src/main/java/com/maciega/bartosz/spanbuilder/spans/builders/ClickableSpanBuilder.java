@@ -3,10 +3,6 @@ package com.maciega.bartosz.spanbuilder.spans.builders;
 import android.text.style.ClickableSpan;
 import android.view.View;
 
-import com.maciega.bartosz.spanbuilder.spans.SpanProxy;
-import com.maciega.bartosz.spanbuilder.spans.SpanTypeBuilder;
-import com.maciega.bartosz.spanbuilder.spans.SpannableBuilder;
-
 /**
  * Created by bartoszmaciega on 28/02/17.
  */
@@ -26,10 +22,4 @@ public class ClickableSpanBuilder extends AbstractSpanTypeBuilder<ClickableSpan>
         };
     }
 
-
-    @Override
-    public SpannableBuilder make(SpanProxy proxy) {
-        proxy.getSpannable().setSpan(span,proxy.startIndex(),proxy.endIndex(),proxy.flags());
-        return proxy.send();
-    }
 }

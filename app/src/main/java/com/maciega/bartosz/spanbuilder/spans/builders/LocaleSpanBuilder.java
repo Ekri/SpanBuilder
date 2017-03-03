@@ -1,16 +1,23 @@
 package com.maciega.bartosz.spanbuilder.spans.builders;
 
+import android.annotation.TargetApi;
+import android.os.Build;
+import android.text.style.LocaleSpan;
+
 import com.maciega.bartosz.spanbuilder.spans.SpanProxy;
-import com.maciega.bartosz.spanbuilder.spans.SpanTypeBuilder;
 import com.maciega.bartosz.spanbuilder.spans.SpannableBuilder;
 
+import java.util.Locale;
+
 /**
- * Created by bartoszmaciega on 02/03/17.
+ * Created by bartoszmaciega on 03/03/17.
  */
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+public class LocaleSpanBuilder extends AbstractSpanTypeBuilder<LocaleSpan> {
 
-public abstract class AbstractSpanTypeBuilder<T extends Object> implements SpanTypeBuilder {
-    protected T span;
-
+    public LocaleSpanBuilder(Locale locale){
+        span = new LocaleSpan(locale);
+    }
 
     @Override
     public SpannableBuilder make(SpanProxy proxy) {
