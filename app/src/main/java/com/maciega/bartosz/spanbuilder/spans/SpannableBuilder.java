@@ -8,6 +8,7 @@ import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.TextView;
 
+import com.maciega.bartosz.spanbuilder.spans.builders.AbsoluteSizeSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.BackgroundColorSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.ClickableSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.ForegroundColorSpanBuilder;
@@ -22,6 +23,7 @@ import com.maciega.bartosz.spanbuilder.spans.builders.UrlSpanBuilder;
  * Things to do:
  * - add span flags
  * - route spans to helper classes( separated by superclasses)
+ * - rethink if should remove constructors with parcel
  */
 
 public class SpannableBuilder {
@@ -50,25 +52,24 @@ public class SpannableBuilder {
         flags = Spanned.SPAN_INCLUSIVE_EXCLUSIVE;
     }
 
-
     public SpannableBuilder withBackgroundColor(int color) {
         BackgroundColorSpanBuilder builder = new BackgroundColorSpanBuilder(color);
-        return builder.make(createProxy(startIndex, endIndex, flags));
+        return builder.make(getDefaultProxy());
     }
 
-    public SpannableBuilder withBackgroundColor(Parcel parcel) {
-        BackgroundColorSpanBuilder builder = new BackgroundColorSpanBuilder(parcel);
-        return builder.make(createProxy(startIndex, endIndex, flags));
+    public SpannableBuilder withBackgroundColor(Parcel src) {
+        BackgroundColorSpanBuilder builder = new BackgroundColorSpanBuilder(src);
+        return builder.make(getDefaultProxy());
     }
 
     public SpannableBuilder withForegroundColor(int color) {
         ForegroundColorSpanBuilder builder = new ForegroundColorSpanBuilder(color);
-        return builder.make(createProxy(startIndex, endIndex, flags));
+        return builder.make(getDefaultProxy());
     }
 
-    public SpannableBuilder withForegroundColor(Parcel parcel) {
-        ForegroundColorSpanBuilder builder = new ForegroundColorSpanBuilder(parcel);
-        return builder.make(createProxy(startIndex, endIndex, flags));
+    public SpannableBuilder withForegroundColor(Parcel src) {
+        ForegroundColorSpanBuilder builder = new ForegroundColorSpanBuilder(src);
+        return builder.make(getDefaultProxy());
     }
 
     public SpannableBuilder withClickable(View.OnClickListener listener) {
@@ -76,7 +77,7 @@ public class SpannableBuilder {
         if (textView != null) {
             textView.setMovementMethod(LinkMovementMethod.getInstance());
         }
-        return builder.make(createProxy(startIndex, endIndex, flags));
+        return builder.make(getDefaultProxy());
     }
 
     public SpannableBuilder withUrl(String url) {
@@ -84,15 +85,34 @@ public class SpannableBuilder {
         if (textView != null) {
             textView.setMovementMethod(LinkMovementMethod.getInstance());
         }
-        return builder.make(createProxy(startIndex, endIndex, flags));
+        return builder.make(getDefaultProxy());
     }
 
 
     public SpannableBuilder withMask(MaskFilter mask) {
         MaskFilterSpanBuilder builder = new MaskFilterSpanBuilder(mask);
-        return builder.make(createProxy(startIndex, endIndex, flags));
+        return builder.make(getDefaultProxy());
     }
 
+    public SpannableBuilder withAbsoluteSize(int size) {
+        AbsoluteSizeSpanBuilder builder = new AbsoluteSizeSpanBuilder(size, false);
+        return builder.make(getDefaultProxy());
+    }
+
+    public SpannableBuilder withAbsoluteSize(int size, boolean dip) {
+        AbsoluteSizeSpanBuilder builder = new AbsoluteSizeSpanBuilder(size, dip);
+        return builder.make(getDefaultProxy());
+    }
+
+    public SpannableBuilder withAbsoluteSize(Parcel src) {
+        AbsoluteSizeSpanBuilder builder = new AbsoluteSizeSpanBuilder(src);
+        return builder.make(getDefaultProxy());
+    }
+
+
+    /**
+     * Internal methods
+     */
 
     public SpannableBuilder changeFlags(int flags) {
         this.flags = flags;
@@ -137,9 +157,12 @@ public class SpannableBuilder {
     }
 
 
-    //TODO rethink flags
     private SpanProxy createProxy(int start, int end) {
         return new SpanProxy(this, text, start, end);
+    }
+
+    private SpanProxy getDefaultProxy() {
+        return createProxy(startIndex, endIndex, flags);
     }
 
     private SpanProxy createProxy(int start, int end, int flags) {
