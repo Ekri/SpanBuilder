@@ -1,7 +1,11 @@
 package com.maciega.bartosz.spanbuilder.spans;
 
 import android.annotation.TargetApi;
+import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.MaskFilter;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.LocaleList;
 import android.os.Parcel;
@@ -15,6 +19,7 @@ import com.maciega.bartosz.spanbuilder.spans.builders.AbsoluteSizeSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.BackgroundColorSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.ClickableSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.ForegroundColorSpanBuilder;
+import com.maciega.bartosz.spanbuilder.spans.builders.ImageSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.LocaleSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.MaskFilterSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.RelativeSizeSpanBuilder;
@@ -139,6 +144,51 @@ public class SpannableBuilder {
 
     public SpannableBuilder withRelative(Parcel src) {
         RelativeSizeSpanBuilder builder = new RelativeSizeSpanBuilder(src);
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withImage(Context context, Bitmap bitmap) {
+        ImageSpanBuilder builder = new ImageSpanBuilder(context, bitmap);
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withImage(Context context, Bitmap bitmap, int verticalAlignment) {
+        ImageSpanBuilder builder = new ImageSpanBuilder(context, bitmap, verticalAlignment);
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withImage(Drawable drawable) {
+        ImageSpanBuilder builder = new ImageSpanBuilder(drawable);
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withImage(Drawable drawable, int verticalAlignment) {
+        ImageSpanBuilder builder = new ImageSpanBuilder(drawable, verticalAlignment);
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withImage(Drawable drawable, String source, int verticalAlignment) {
+        ImageSpanBuilder builder = new ImageSpanBuilder(drawable, source, verticalAlignment);
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withImage(Context context, Uri uri) {
+        ImageSpanBuilder builder = new ImageSpanBuilder(context, uri);
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withImage(Context context, Uri uri, int verticalAlignment) {
+        ImageSpanBuilder builder = new ImageSpanBuilder(context, uri, verticalAlignment);
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withImage(Context context, int resourceId) {
+        ImageSpanBuilder builder = new ImageSpanBuilder(context, resourceId);
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withImage(Context context, int resourceId, int verticalAlignment) {
+        ImageSpanBuilder builder = new ImageSpanBuilder(context, resourceId, verticalAlignment);
         return makeSpan(builder);
     }
 
