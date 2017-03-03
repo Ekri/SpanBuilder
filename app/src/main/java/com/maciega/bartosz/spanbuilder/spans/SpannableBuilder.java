@@ -3,6 +3,7 @@ package com.maciega.bartosz.spanbuilder.spans;
 import android.graphics.MaskFilter;
 import android.os.Parcel;
 import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.TextView;
@@ -29,6 +30,7 @@ public class SpannableBuilder {
     private TextView textView;
     private int startIndex;
     private int endIndex;
+    private int flags;
 
 
     public static SpannableBuilder newInstance(String text) {
@@ -45,27 +47,28 @@ public class SpannableBuilder {
         spannableBuilder = new SpannableStringBuilder(text);
         startIndex = 0;
         endIndex = text.length();
+        flags = Spanned.SPAN_INCLUSIVE_EXCLUSIVE;
     }
 
 
     public SpannableBuilder withBackgroundColor(int color) {
         BackgroundColorSpanBuilder builder = new BackgroundColorSpanBuilder(color);
-        return builder.make(createProxy(startIndex, endIndex));
+        return builder.make(createProxy(startIndex, endIndex, flags));
     }
 
     public SpannableBuilder withBackgroundColor(Parcel parcel) {
         BackgroundColorSpanBuilder builder = new BackgroundColorSpanBuilder(parcel);
-        return builder.make(createProxy(startIndex, endIndex));
+        return builder.make(createProxy(startIndex, endIndex, flags));
     }
 
     public SpannableBuilder withForegroundColor(int color) {
         ForegroundColorSpanBuilder builder = new ForegroundColorSpanBuilder(color);
-        return builder.make(createProxy(startIndex, endIndex));
+        return builder.make(createProxy(startIndex, endIndex, flags));
     }
 
     public SpannableBuilder withForegroundColor(Parcel parcel) {
         ForegroundColorSpanBuilder builder = new ForegroundColorSpanBuilder(parcel);
-        return builder.make(createProxy(startIndex, endIndex));
+        return builder.make(createProxy(startIndex, endIndex, flags));
     }
 
     public SpannableBuilder withClickable(View.OnClickListener listener) {
@@ -73,7 +76,7 @@ public class SpannableBuilder {
         if (textView != null) {
             textView.setMovementMethod(LinkMovementMethod.getInstance());
         }
-        return builder.make(createProxy(startIndex, endIndex));
+        return builder.make(createProxy(startIndex, endIndex, flags));
     }
 
     public SpannableBuilder withUrl(String url) {
@@ -81,13 +84,25 @@ public class SpannableBuilder {
         if (textView != null) {
             textView.setMovementMethod(LinkMovementMethod.getInstance());
         }
-        return builder.make(createProxy(startIndex, endIndex));
+        return builder.make(createProxy(startIndex, endIndex, flags));
     }
 
 
     public SpannableBuilder withMask(MaskFilter mask) {
         MaskFilterSpanBuilder builder = new MaskFilterSpanBuilder(mask);
-        return builder.make(createProxy(startIndex, endIndex));
+        return builder.make(createProxy(startIndex, endIndex, flags));
+    }
+
+
+    public SpannableBuilder changeFlags(int flags) {
+        this.flags = flags;
+        return this;
+    }
+
+
+    public SpannableBuilder resetFlags() {
+        this.flags = Spanned.SPAN_INCLUSIVE_EXCLUSIVE;
+        return this;
     }
 
     public SpannableBuilder changeIndex(int startIndex, int endIndex) {
