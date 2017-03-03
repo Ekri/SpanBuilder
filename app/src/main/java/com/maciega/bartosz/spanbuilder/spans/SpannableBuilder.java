@@ -20,12 +20,15 @@ import com.maciega.bartosz.spanbuilder.spans.builders.UrlSpanBuilder;
 /**
  * Things to do:
  * - add span flags
+ * - route spans to helper classes( separated by superclasses)
  */
 
 public class SpannableBuilder {
     private SpannableStringBuilder spannableBuilder;
     private String text;
     private TextView textView;
+    private int startIndex;
+    private int endIndex;
 
 
     public static SpannableBuilder newInstance(String text) {
@@ -40,50 +43,64 @@ public class SpannableBuilder {
     private SpannableBuilder(String text) {
         this.text = text;
         spannableBuilder = new SpannableStringBuilder(text);
+        startIndex = 0;
+        endIndex = text.length();
     }
+
 
     public SpannableBuilder withBackgroundColor(int color) {
         BackgroundColorSpanBuilder builder = new BackgroundColorSpanBuilder(color);
-        return builder.make(createProxy(0, text.length()));
+        return builder.make(createProxy(startIndex, endIndex));
     }
 
     public SpannableBuilder withBackgroundColor(Parcel parcel) {
         BackgroundColorSpanBuilder builder = new BackgroundColorSpanBuilder(parcel);
-        return builder.make(createProxy(0, text.length()));
+        return builder.make(createProxy(startIndex, endIndex));
     }
 
     public SpannableBuilder withForegroundColor(int color) {
         ForegroundColorSpanBuilder builder = new ForegroundColorSpanBuilder(color);
-        return builder.make(createProxy(0, text.length()));
+        return builder.make(createProxy(startIndex, endIndex));
     }
 
     public SpannableBuilder withForegroundColor(Parcel parcel) {
         ForegroundColorSpanBuilder builder = new ForegroundColorSpanBuilder(parcel);
-        return builder.make(createProxy(0, text.length()));
+        return builder.make(createProxy(startIndex, endIndex));
     }
 
-    public SpannableBuilder withClickable(View.OnClickListener listener, int start, int end) {
+    public SpannableBuilder withClickable(View.OnClickListener listener) {
         ClickableSpanBuilder builder = new ClickableSpanBuilder(listener);
         if (textView != null) {
             textView.setMovementMethod(LinkMovementMethod.getInstance());
         }
-        return builder.make(createProxy(start, end));
+        return builder.make(createProxy(startIndex, endIndex));
     }
 
-    public SpannableBuilder withUrl(String url, int start, int end) {
+    public SpannableBuilder withUrl(String url) {
         UrlSpanBuilder builder = new UrlSpanBuilder(url);
         if (textView != null) {
             textView.setMovementMethod(LinkMovementMethod.getInstance());
         }
-        return builder.make(createProxy(start, end));
+        return builder.make(createProxy(startIndex, endIndex));
     }
 
 
     public SpannableBuilder withMask(MaskFilter mask) {
         MaskFilterSpanBuilder builder = new MaskFilterSpanBuilder(mask);
-        return builder.make(createProxy(0, text.length()));
+        return builder.make(createProxy(startIndex, endIndex));
     }
 
+    public SpannableBuilder changeIndex(int startIndex, int endIndex) {
+        this.startIndex = startIndex;
+        this.endIndex = endIndex;
+        return this;
+    }
+
+    public SpannableBuilder resetIndex() {
+        this.startIndex = 0;
+        this.endIndex = text.length();
+        return this;
+    }
 
     public SpannableStringBuilder get() {
         return spannableBuilder;
