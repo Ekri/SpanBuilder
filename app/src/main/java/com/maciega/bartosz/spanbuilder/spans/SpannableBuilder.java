@@ -23,6 +23,8 @@ import com.maciega.bartosz.spanbuilder.spans.builders.ImageSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.LocaleSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.MaskFilterSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.RelativeSizeSpanBuilder;
+import com.maciega.bartosz.spanbuilder.spans.builders.ScaleXSpanBuilder;
+import com.maciega.bartosz.spanbuilder.spans.builders.StyleSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.UrlSpanBuilder;
 
 import java.util.Locale;
@@ -162,6 +164,11 @@ public class SpannableBuilder {
         return makeSpan(builder);
     }
 
+    public SpannableBuilder withImage(Drawable drawable, String source) {
+        ImageSpanBuilder builder = new ImageSpanBuilder(drawable, source);
+        return makeSpan(builder);
+    }
+
     public SpannableBuilder withImage(Drawable drawable, int verticalAlignment) {
         ImageSpanBuilder builder = new ImageSpanBuilder(drawable, verticalAlignment);
         return makeSpan(builder);
@@ -192,6 +199,25 @@ public class SpannableBuilder {
         return makeSpan(builder);
     }
 
+    public SpannableBuilder withXScale(float proportion) {
+        ScaleXSpanBuilder builder = new ScaleXSpanBuilder(proportion);
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withXScale(Parcel src) {
+        ScaleXSpanBuilder builder = new ScaleXSpanBuilder(src);
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withStyle(int style) {
+        StyleSpanBuilder builder = new StyleSpanBuilder(style);
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withStyle(Parcel src){
+        StyleSpanBuilder builder = new StyleSpanBuilder(src);
+        return makeSpan(builder);
+    }
 
     /**
      * Internal methods
