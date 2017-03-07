@@ -214,10 +214,19 @@ public class SpannableBuilder {
         return makeSpan(builder);
     }
 
-    public SpannableBuilder withStyle(Parcel src){
+    public SpannableBuilder withStyle(Parcel src) {
         StyleSpanBuilder builder = new StyleSpanBuilder(src);
         return makeSpan(builder);
     }
+    /**
+     * Subscript and superscript span skipped intentionally , test its behavior in future
+     */
+
+
+
+
+
+
 
     /**
      * Internal methods
