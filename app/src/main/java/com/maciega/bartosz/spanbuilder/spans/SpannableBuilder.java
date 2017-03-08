@@ -2,6 +2,7 @@ package com.maciega.bartosz.spanbuilder.spans;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.MaskFilter;
 import android.graphics.drawable.Drawable;
@@ -24,7 +25,10 @@ import com.maciega.bartosz.spanbuilder.spans.builders.LocaleSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.MaskFilterSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.RelativeSizeSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.ScaleXSpanBuilder;
+import com.maciega.bartosz.spanbuilder.spans.builders.StrikeThroughSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.StyleSpanBuilder;
+import com.maciega.bartosz.spanbuilder.spans.builders.TextAppearanceSpanBuilder;
+import com.maciega.bartosz.spanbuilder.spans.builders.TypeFaceSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.UrlSpanBuilder;
 
 import java.util.Locale;
@@ -218,14 +222,56 @@ public class SpannableBuilder {
         StyleSpanBuilder builder = new StyleSpanBuilder(src);
         return makeSpan(builder);
     }
+
+    public SpannableBuilder withTypeface(String family) {
+        TypeFaceSpanBuilder builder = new TypeFaceSpanBuilder(family);
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withTypeface(Parcel src) {
+        TypeFaceSpanBuilder builder = new TypeFaceSpanBuilder(src);
+        return makeSpan(builder);
+    }
+
+
     /**
      * Subscript and superscript span skipped intentionally , test its behavior in future
      */
 
 
+    public SpannableBuilder withTextAppearance(Context context, int appearance) {
+        TextAppearanceSpanBuilder builder = new TextAppearanceSpanBuilder(context, appearance);
+        return makeSpan(builder);
+    }
 
+    public SpannableBuilder withTextAppearance(Context context, int appearance, int colorList) {
+        TextAppearanceSpanBuilder builder = new TextAppearanceSpanBuilder(context, appearance, colorList);
+        return makeSpan(builder);
+    }
 
+    public SpannableBuilder withTextAppearance(String family, int style, int size, ColorStateList color, ColorStateList linkColor) {
+        TextAppearanceSpanBuilder builder = new TextAppearanceSpanBuilder(family, style, size, color, linkColor);
+        return makeSpan(builder);
+    }
 
+    public SpannableBuilder withTextAppearance(Parcel src) {
+        TextAppearanceSpanBuilder builder = new TextAppearanceSpanBuilder(src);
+        return makeSpan(builder);
+    }
+
+    /**
+     * Rasterizer span skipped since its rasterizer is deprecated since api 21
+     */
+
+    public SpannableBuilder withStrikethrough() {
+        StrikeThroughSpanBuilder builder = new StrikeThroughSpanBuilder();
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withStrikeThrough(Parcel src) {
+        StrikeThroughSpanBuilder builder = new StrikeThroughSpanBuilder(src);
+        return makeSpan(builder);
+    }
 
 
     /**
