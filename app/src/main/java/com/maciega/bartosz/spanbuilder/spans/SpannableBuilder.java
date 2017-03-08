@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.LocaleList;
 import android.os.Parcel;
+import android.text.Layout;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -17,6 +18,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.maciega.bartosz.spanbuilder.spans.builders.AbsoluteSizeSpanBuilder;
+import com.maciega.bartosz.spanbuilder.spans.builders.AlignmentSpanStandardBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.BackgroundColorSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.ClickableSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.ForegroundColorSpanBuilder;
@@ -27,8 +29,10 @@ import com.maciega.bartosz.spanbuilder.spans.builders.RelativeSizeSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.ScaleXSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.StrikeThroughSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.StyleSpanBuilder;
+import com.maciega.bartosz.spanbuilder.spans.builders.SuggestionSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.TextAppearanceSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.TypeFaceSpanBuilder;
+import com.maciega.bartosz.spanbuilder.spans.builders.UnderlineSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.UrlSpanBuilder;
 
 import java.util.Locale;
@@ -273,6 +277,48 @@ public class SpannableBuilder {
         return makeSpan(builder);
     }
 
+
+    public SpannableBuilder withSuggestion(Context context, String[] suggestions, int flags) {
+        SuggestionSpanBuilder builder = new SuggestionSpanBuilder(context, suggestions, flags);
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withSuggestion(Locale locale, String[] suggestions, int flags) {
+        SuggestionSpanBuilder builder = new SuggestionSpanBuilder(locale, suggestions, flags);
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withSuggestion(Context context, Locale locale, String[] suggestions,
+                                           int flags, Class<?> notificationTargetClass) {
+        SuggestionSpanBuilder builder = new SuggestionSpanBuilder(context, locale, suggestions,
+                flags, notificationTargetClass);
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withSuggestion(Parcel src) {
+        SuggestionSpanBuilder builder = new SuggestionSpanBuilder(src);
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withUnderline() {
+        UnderlineSpanBuilder builder = new UnderlineSpanBuilder();
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withUnderline(Parcel src) {
+        UnderlineSpanBuilder builder = new UnderlineSpanBuilder(src);
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withStandardAlignment(Layout.Alignment alignment){
+        AlignmentSpanStandardBuilder builder = new AlignmentSpanStandardBuilder(alignment);
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withStandardAlignment(Parcel src){
+        AlignmentSpanStandardBuilder builder = new AlignmentSpanStandardBuilder(src);
+        return makeSpan(builder);
+    }
 
     /**
      * Internal methods
