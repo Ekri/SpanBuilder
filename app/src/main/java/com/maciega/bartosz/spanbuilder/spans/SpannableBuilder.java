@@ -6,6 +6,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.MaskFilter;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.Build;
 import android.os.LocaleList;
@@ -20,11 +21,16 @@ import android.widget.TextView;
 import com.maciega.bartosz.spanbuilder.spans.builders.AbsoluteSizeSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.AlignmentSpanStandardBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.BackgroundColorSpanBuilder;
+import com.maciega.bartosz.spanbuilder.spans.builders.BulletSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.ClickableSpanBuilder;
+import com.maciega.bartosz.spanbuilder.spans.builders.DrawableMarginSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.ForegroundColorSpanBuilder;
+import com.maciega.bartosz.spanbuilder.spans.builders.IconSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.ImageSpanBuilder;
+import com.maciega.bartosz.spanbuilder.spans.builders.LeadingMarginStandardSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.LocaleSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.MaskFilterSpanBuilder;
+import com.maciega.bartosz.spanbuilder.spans.builders.QuoteSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.RelativeSizeSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.ScaleXSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.StrikeThroughSpanBuilder;
@@ -310,15 +316,86 @@ public class SpannableBuilder {
         return makeSpan(builder);
     }
 
-    public SpannableBuilder withStandardAlignment(Layout.Alignment alignment){
+    public SpannableBuilder withStandardAlignment(Layout.Alignment alignment) {
         AlignmentSpanStandardBuilder builder = new AlignmentSpanStandardBuilder(alignment);
         return makeSpan(builder);
     }
 
-    public SpannableBuilder withStandardAlignment(Parcel src){
+    public SpannableBuilder withStandardAlignment(Parcel src) {
         AlignmentSpanStandardBuilder builder = new AlignmentSpanStandardBuilder(src);
         return makeSpan(builder);
     }
+
+    public SpannableBuilder withBullet() {
+        BulletSpanBuilder builder = new BulletSpanBuilder();
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withBullet(int gapWidth) {
+        BulletSpanBuilder builder = new BulletSpanBuilder();
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withBullet(int gapWidth, int color) {
+        BulletSpanBuilder builder = new BulletSpanBuilder(gapWidth, color);
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withBullet(Parcel src) {
+        BulletSpanBuilder builder = new BulletSpanBuilder(src);
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withDrawableMargin(Drawable d) {
+        DrawableMarginSpanBuilder builder = new DrawableMarginSpanBuilder(d);
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withDrawableMargin(Drawable d, int pad) {
+        DrawableMarginSpanBuilder builder = new DrawableMarginSpanBuilder(d, pad);
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withIcon(Bitmap b) {
+        IconSpanBuilder builder = new IconSpanBuilder(b);
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withIcon(Bitmap b, int pad) {
+        IconSpanBuilder builder = new IconSpanBuilder(b, pad);
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withLeadingStandard(int first, int rest) {
+        LeadingMarginStandardSpanBuilder builder = new LeadingMarginStandardSpanBuilder(first, rest);
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withLeadingStandard(int every) {
+        LeadingMarginStandardSpanBuilder builder = new LeadingMarginStandardSpanBuilder(every);
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withLeadingStandard(Parcel src) {
+        LeadingMarginStandardSpanBuilder builder = new LeadingMarginStandardSpanBuilder(src);
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withQuote(){
+        QuoteSpanBuilder builder = new QuoteSpanBuilder();
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withQuote(int color){
+        QuoteSpanBuilder builder = new QuoteSpanBuilder(color);
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withQuote(Parcel src){
+        QuoteSpanBuilder builder = new QuoteSpanBuilder(src);
+        return makeSpan(builder);
+    }
+
 
     /**
      * Internal methods

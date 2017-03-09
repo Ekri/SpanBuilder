@@ -1,5 +1,6 @@
 package com.maciega.bartosz.spanbuilder.spans.builders;
 
+import android.os.Parcel;
 import android.text.style.BulletSpan;
 
 /**
@@ -7,5 +8,21 @@ import android.text.style.BulletSpan;
  */
 
 public class BulletSpanBuilder extends AbstractSpanTypeBuilder<BulletSpan> {
+
+    public BulletSpanBuilder() {
+        span = new BulletSpan();
+    }
+
+    public BulletSpanBuilder(int gapWidth) {
+        span = new BulletSpan(gapWidth);
+    }
+
+    public BulletSpanBuilder(int gapWidth, int color) {
+        span = new BulletSpan(gapWidth, color);
+    }
+
+    public BulletSpanBuilder(Parcel src) {
+        span = new BulletSpan(src);
+    }
 
 }
