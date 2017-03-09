@@ -6,7 +6,6 @@ import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.MaskFilter;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.Icon;
 import android.net.Uri;
 import android.os.Build;
 import android.os.LocaleList;
@@ -25,6 +24,7 @@ import com.maciega.bartosz.spanbuilder.spans.builders.BulletSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.ClickableSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.DrawableMarginSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.ForegroundColorSpanBuilder;
+import com.maciega.bartosz.spanbuilder.spans.builders.IconMarginSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.IconSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.ImageSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.LeadingMarginStandardSpanBuilder;
@@ -36,6 +36,7 @@ import com.maciega.bartosz.spanbuilder.spans.builders.ScaleXSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.StrikeThroughSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.StyleSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.SuggestionSpanBuilder;
+import com.maciega.bartosz.spanbuilder.spans.builders.TabStopStandardSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.TextAppearanceSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.TypeFaceSpanBuilder;
 import com.maciega.bartosz.spanbuilder.spans.builders.UnderlineSpanBuilder;
@@ -381,21 +382,35 @@ public class SpannableBuilder {
         return makeSpan(builder);
     }
 
-    public SpannableBuilder withQuote(){
+    public SpannableBuilder withQuote() {
         QuoteSpanBuilder builder = new QuoteSpanBuilder();
         return makeSpan(builder);
     }
 
-    public SpannableBuilder withQuote(int color){
+    public SpannableBuilder withQuote(int color) {
         QuoteSpanBuilder builder = new QuoteSpanBuilder(color);
         return makeSpan(builder);
     }
 
-    public SpannableBuilder withQuote(Parcel src){
+    public SpannableBuilder withQuote(Parcel src) {
         QuoteSpanBuilder builder = new QuoteSpanBuilder(src);
         return makeSpan(builder);
     }
 
+    public SpannableBuilder withIconMargin(Bitmap b) {
+        IconMarginSpanBuilder builder = new IconMarginSpanBuilder(b);
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withIconMargin(Bitmap b, int pad) {
+        IconMarginSpanBuilder builder = new IconMarginSpanBuilder(b, pad);
+        return makeSpan(builder);
+    }
+
+    public SpannableBuilder withTabStopStandard(int where) {
+        TabStopStandardSpanBuilder builder = new TabStopStandardSpanBuilder(where);
+        return makeSpan(builder);
+    }
 
     /**
      * Internal methods
