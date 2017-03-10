@@ -9,9 +9,6 @@ import android.view.View;
 
 public class ClickableSpanBuilder extends AbstractSpanTypeBuilder<ClickableSpan> {
 
-    private View.OnClickListener listener;
-
-//TODO fill this later
 
     public ClickableSpanBuilder(final View.OnClickListener listener) {
         span = new ClickableSpan() {
