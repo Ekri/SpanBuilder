@@ -416,7 +416,7 @@ public class SpannableBuilder {
      * Internal methods
      */
 
-    public SpannableBuilder changeFlags(int flags) {
+    public SpannableBuilder withFlag(int flags) {
         this.flags = flags;
         return this;
     }
@@ -427,7 +427,7 @@ public class SpannableBuilder {
         return this;
     }
 
-    public SpannableBuilder changeIndex(int startIndex, int endIndex) {
+    public SpannableBuilder index(int startIndex, int endIndex) {
         this.startIndex = startIndex;
         this.endIndex = endIndex;
         return this;
