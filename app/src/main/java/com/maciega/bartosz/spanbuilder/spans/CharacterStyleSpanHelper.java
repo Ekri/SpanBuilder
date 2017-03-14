@@ -22,7 +22,7 @@ public class CharacterStyleSpanHelper {
 
     }
 
-    public SpannableBuilder withBackgroundColor(int color, SpanProxy proxy) {
+    public SpanBuilder withBackgroundColor(int color, SpanProxy proxy) {
         BackgroundColorSpanBuilder builder = new BackgroundColorSpanBuilder(color);
         return builder.make(proxy);
     }

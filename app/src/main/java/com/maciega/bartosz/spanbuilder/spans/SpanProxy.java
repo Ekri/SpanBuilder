@@ -10,21 +10,21 @@ import android.text.Spanned;
 
 public class SpanProxy {
 
-    private SpannableBuilder builder;
+    private SpanBuilder builder;
     private String text;
     private int start = 0;
     private int end = 0;
     private int flags = Spanned.SPAN_INCLUSIVE_EXCLUSIVE;
 
-    public SpanProxy(SpannableBuilder builder, @NonNull String text) {
+    public SpanProxy(SpanBuilder builder, @NonNull String text) {
         this(builder, text, 0, 0);
     }
 
-    public SpanProxy(SpannableBuilder builder, @NonNull String text, int start, int end) {
+    public SpanProxy(SpanBuilder builder, @NonNull String text, int start, int end) {
         this(builder, text, start, end, -1);
     }
 
-    public SpanProxy(SpannableBuilder builder, @NonNull String text, int start, int end, int flags) {
+    public SpanProxy(SpanBuilder builder, @NonNull String text, int start, int end, int flags) {
         this.builder = builder;
         this.text = text;
         this.start = start;
@@ -34,7 +34,7 @@ public class SpanProxy {
         }
     }
 
-    public SpannableBuilder send() {
+    public SpanBuilder send() {
         return builder;
     }
 
