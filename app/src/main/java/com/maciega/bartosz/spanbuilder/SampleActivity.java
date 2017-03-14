@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
-import com.maciega.bartosz.spanbuilder.spans.SpanBuilder;
+import com.maciega.bartosz.span_builder.spans.SpanBuilder;
 
 public class SampleActivity extends AppCompatActivity {
 
