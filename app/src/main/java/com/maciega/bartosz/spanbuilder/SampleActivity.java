@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import com.maciega.bartosz.spanbuilder.spans.SpanBuilder;
 
-public class MainActivity extends AppCompatActivity {
+public class SampleActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
