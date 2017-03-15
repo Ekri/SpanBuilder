@@ -13,7 +13,7 @@ ext {
     siteUrl = 'https://github.com/bmaciejm/SpanBuilder'
     gitUrl = 'https://github.com/bmaciejm/SpanBuilder.git'
 
-    libraryVersion = '0.4.0'
+    libraryVersion = '0.4.1'
 
     developerId = 'bartolom'
     developerName = 'Bartosz Macięga'
@@ -155,11 +155,6 @@ bintray {
         publicDownloadNumbers = true
         version {
             desc = libraryDescription
-//            gpg {
-//                sign = true //Determines whether to GPG sign the files. The default is false
-//                passphrase = properties.getProperty("bintray.gpg.password")
-                //Optional. The passphrase for GPG signing'
-//            }
         }
     }
 }
