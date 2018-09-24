@@ -12,7 +12,7 @@ public class SampleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        TextView textView = (TextView) findViewById(R.id.text);
+        TextView textView = findViewById(R.id.text);
         SpanBuilder.newInstance(textView.getText().toString())
                 .withView(textView)
                 .index(0, 5)
