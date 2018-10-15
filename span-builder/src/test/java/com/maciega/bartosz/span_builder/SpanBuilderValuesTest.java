@@ -4,7 +4,7 @@ import android.text.Spanned;
 import android.widget.TextView;
 
 
-import com.maciega.bartosz.span_builder.spans.SpanBuilder;
+import com.maciega.bartosz.spanbuilder.spans.SpanBuilder;
 
 import org.junit.After;
 import org.junit.Before;
