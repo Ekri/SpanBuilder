@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId "com.maciega.bartosz.spanbuilder"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
         versionName "1.0.0"
