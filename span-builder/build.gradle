@@ -14,7 +14,7 @@ ext {
     siteUrl = 'https://github.com/bmaciejm/SpanBuilder'
     gitUrl = 'https://github.com/bmaciejm/SpanBuilder.git'
 
-    libraryVersion = '0.4.1'
+    libraryVersion = '0.5.1'
 
     developerId = 'bartolom'
     developerName = 'Bartosz Macięga'

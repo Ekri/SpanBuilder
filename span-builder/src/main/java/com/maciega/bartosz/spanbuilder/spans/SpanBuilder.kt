@@ -41,35 +41,29 @@ import android.widget.TextView
 import java.util.Locale
 
 const val ZERO_START_INDEX = 0
+const val DEFAULT_SPAN_FLAG = Spanned.SPAN_INCLUSIVE_EXCLUSIVE
 
-class SpanBuilder private constructor(
-  text: String,
-  private val initialFlags: Int,
-  buildFunc: SpanBuilder.() -> Unit
-) {
+inline fun TextView.withSpan(text: String, flags: Int = DEFAULT_SPAN_FLAG, buildFunc: SpanBuilder.(TextView) -> Unit) {
+  val builder = SpanBuilder(text, flags)
+  buildFunc.invoke(builder, this)
+  this.text = builder.build()
+}
 
-  private val innerSpan: SpannableStringBuilder = SpannableStringBuilder(text)
-  private val textLength = text.length
+class SpanBuilder constructor(text: String, private val initialFlags: Int) {
 
-  init {
+  constructor(text: String, flags: Int = DEFAULT_SPAN_FLAG, buildFunc: SpanBuilder.() -> Unit) : this(text, flags) {
     buildFunc.invoke(this)
   }
 
-  companion object {
-    @JvmOverloads
-    @JvmStatic
-    fun builder(text: String,
-                flags: Int = Spanned.SPAN_INCLUSIVE_EXCLUSIVE,
-                buildFunc: SpanBuilder.() -> Unit
-    ): SpanBuilder = SpanBuilder(text, flags, buildFunc)
-  }
+  private val innerSpanBuilder: SpannableStringBuilder = SpannableStringBuilder(text)
+  private val textLength = text.length
 
   fun backgroundColor(@ColorInt color: Int, start: Int = ZERO_START_INDEX, end: Int = textLength, flags: Int = initialFlags) {
-    innerSpan.setSpan(BackgroundColorSpan(color), start, end, flags)
+    innerSpanBuilder.setSpan(BackgroundColorSpan(color), start, end, flags)
   }
 
   fun foregroundColor(@ColorInt color: Int, start: Int = ZERO_START_INDEX, end: Int = textLength, flags: Int = initialFlags) {
-    innerSpan.setSpan(ForegroundColorSpan(color), start, end, flags)
+    innerSpanBuilder.setSpan(ForegroundColorSpan(color), start, end, flags)
   }
 
   fun clickable(textView: TextView, start: Int = ZERO_START_INDEX, end: Int = textLength, flags: Int = initialFlags, listener: (View) -> Unit) {
@@ -78,45 +72,45 @@ class SpanBuilder private constructor(
         listener.invoke(widget)
       }
     }
-    innerSpan.setSpan(clickableSpan, start, end, flags)
+    innerSpanBuilder.setSpan(clickableSpan, start, end, flags)
     textView.movementMethod = LinkMovementMethod.getInstance()
   }
 
   fun url(url: String, textView: TextView, start: Int = ZERO_START_INDEX, end: Int = textLength, flags: Int = initialFlags) {
-    innerSpan.setSpan(URLSpan(url), start, end, flags)
+    innerSpanBuilder.setSpan(URLSpan(url), start, end, flags)
     textView.movementMethod = LinkMovementMethod.getInstance()
   }
 
   fun mask(filter: MaskFilter, start: Int = ZERO_START_INDEX, end: Int = textLength, flags: Int = initialFlags) {
-    innerSpan.setSpan(MaskFilterSpan(filter), start, end, flags)
+    innerSpanBuilder.setSpan(MaskFilterSpan(filter), start, end, flags)
   }
 
   fun absoluteSize(size: Int, dip: Boolean = false, start: Int = ZERO_START_INDEX, end: Int = textLength, flags: Int = initialFlags) {
-    innerSpan.setSpan(AbsoluteSizeSpan(size, dip), start, end, flags)
+    innerSpanBuilder.setSpan(AbsoluteSizeSpan(size, dip), start, end, flags)
   }
 
   @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
   fun locale(locale: Locale, start: Int = ZERO_START_INDEX, end: Int = textLength, flags: Int = initialFlags) {
-    innerSpan.setSpan(LocaleSpan(locale), start, end, flags)
+    innerSpanBuilder.setSpan(LocaleSpan(locale), start, end, flags)
   }
 
   fun relative(proportion: Float, start: Int = ZERO_START_INDEX, end: Int = textLength, flags: Int = initialFlags) {
-    innerSpan.setSpan(RelativeSizeSpan(proportion), start, end, flags)
+    innerSpanBuilder.setSpan(RelativeSizeSpan(proportion), start, end, flags)
   }
 
   fun image(context: Context, bitmap: Bitmap, verticalAlignment: Int? = null, start: Int = ZERO_START_INDEX, end: Int = textLength, flags: Int = initialFlags) {
     val imageSpan = if (verticalAlignment != null) ImageSpan(context, bitmap, verticalAlignment) else ImageSpan(context, bitmap)
-    innerSpan.setSpan(imageSpan, start, end, flags)
+    innerSpanBuilder.setSpan(imageSpan, start, end, flags)
   }
 
   fun image(context: Context, uri: Uri, verticalAlignment: Int? = null, start: Int = ZERO_START_INDEX, end: Int = textLength, flags: Int = initialFlags) {
     val imageSpan = if (verticalAlignment != null) ImageSpan(context, uri, verticalAlignment) else ImageSpan(context, uri)
-    innerSpan.setSpan(imageSpan, start, end, flags)
+    innerSpanBuilder.setSpan(imageSpan, start, end, flags)
   }
 
   fun image(context: Context, resourceId: Int, verticalAlignment: Int? = null, start: Int = ZERO_START_INDEX, end: Int = textLength, flags: Int = initialFlags) {
     val imageSpan = if (verticalAlignment != null) ImageSpan(context, resourceId, verticalAlignment) else ImageSpan(context, resourceId)
-    innerSpan.setSpan(imageSpan, start, end, flags)
+    innerSpanBuilder.setSpan(imageSpan, start, end, flags)
   }
 
   fun image(drawable: Drawable, source: String? = null, verticalAlignment: Int? = null, start: Int = ZERO_START_INDEX, end: Int = textLength, flags: Int = initialFlags) {
@@ -124,23 +118,23 @@ class SpanBuilder private constructor(
       null -> if (verticalAlignment == null) ImageSpan(drawable) else ImageSpan(drawable, verticalAlignment)
       else -> if (verticalAlignment == null) ImageSpan(drawable, source) else ImageSpan(drawable, source, verticalAlignment)
     }
-    innerSpan.setSpan(imageSpan, start, end, flags)
+    innerSpanBuilder.setSpan(imageSpan, start, end, flags)
   }
 
   fun scaleX(proportion: Float, start: Int = ZERO_START_INDEX, end: Int = textLength, flags: Int = initialFlags) {
-    innerSpan.setSpan(ScaleXSpan(proportion), start, end, flags)
+    innerSpanBuilder.setSpan(ScaleXSpan(proportion), start, end, flags)
   }
 
   fun style(style: Int, start: Int = ZERO_START_INDEX, end: Int = textLength, flags: Int = initialFlags) {
-    innerSpan.setSpan(StyleSpan(style), start, end, flags)
+    innerSpanBuilder.setSpan(StyleSpan(style), start, end, flags)
   }
 
   fun typeface(family: String, start: Int = ZERO_START_INDEX, end: Int = textLength, flags: Int = initialFlags) {
-    innerSpan.setSpan(TypefaceSpan(family), start, end, flags)
+    innerSpanBuilder.setSpan(TypefaceSpan(family), start, end, flags)
   }
 
   fun textAppearance(context: Context, appearance: Int, colorList: Int = -1, start: Int = ZERO_START_INDEX, end: Int = textLength, flags: Int = initialFlags) {
-    innerSpan.setSpan(TextAppearanceSpan(context, appearance, colorList), start, end, flags)
+    innerSpanBuilder.setSpan(TextAppearanceSpan(context, appearance, colorList), start, end, flags)
   }
 
   fun textAppearance(
@@ -153,11 +147,19 @@ class SpanBuilder private constructor(
     end: Int = textLength,
     flags: Int = initialFlags
   ) {
-    innerSpan.setSpan(TextAppearanceSpan(family, style, size, color, linkColor), start, end, flags)
+    innerSpanBuilder.setSpan(TextAppearanceSpan(family, style, size, color, linkColor), start, end, flags)
   }
 
   fun strikeThrough(start: Int = ZERO_START_INDEX, end: Int = textLength, flags: Int = initialFlags) {
-    innerSpan.setSpan(StrikethroughSpan(), start, end, flags)
+    innerSpanBuilder.setSpan(StrikethroughSpan(), start, end, flags)
+  }
+
+  fun suggestion(context: Context, suggestions: Array<String>, spanFlags: Int, start: Int = ZERO_START_INDEX, end: Int = textLength, flags: Int = initialFlags) {
+    innerSpanBuilder.setSpan(SuggestionSpan(context, suggestions, spanFlags), start, end, flags)
+  }
+
+  fun suggestion(locale: Locale, suggestions: Array<String>, spanFlags: Int, start: Int = ZERO_START_INDEX, end: Int = textLength, flags: Int = initialFlags) {
+    innerSpanBuilder.setSpan(SuggestionSpan(locale, suggestions, spanFlags), start, end, flags)
   }
 
   fun suggestion(
@@ -170,15 +172,15 @@ class SpanBuilder private constructor(
     end: Int = textLength,
     flags: Int = initialFlags
   ) {
-    innerSpan.setSpan(SuggestionSpan(context, locale, suggestions, spanFlags, notificationTargetClass), start, end, flags)
+    innerSpanBuilder.setSpan(SuggestionSpan(context, locale, suggestions, spanFlags, notificationTargetClass), start, end, flags)
   }
 
   fun underline(start: Int = ZERO_START_INDEX, end: Int = textLength, flags: Int = initialFlags) {
-    innerSpan.setSpan(UnderlineSpan(), start, end, flags)
+    innerSpanBuilder.setSpan(UnderlineSpan(), start, end, flags)
   }
 
   fun standardAlignment(alignment: Layout.Alignment, start: Int = ZERO_START_INDEX, end: Int = textLength, flags: Int = initialFlags) {
-    innerSpan.setSpan(AlignmentSpan.Standard(alignment), start, end, flags)
+    innerSpanBuilder.setSpan(AlignmentSpan.Standard(alignment), start, end, flags)
   }
 
   fun bullet(gapWidth: Int? = null, @ColorInt color: Int? = null, start: Int = ZERO_START_INDEX, end: Int = textLength, flags: Int = initialFlags) {
@@ -187,7 +189,7 @@ class SpanBuilder private constructor(
       color == null -> BulletSpan()
       else -> throw InvalidSpanArgumentsException("Invalid arguments, gapWidth cannot be null when color is not null")
     }
-    innerSpan.setSpan(bulletSpan, start, end, flags)
+    innerSpanBuilder.setSpan(bulletSpan, start, end, flags)
   }
 
   fun drawableMargin(drawable: Drawable, padding: Int? = null, start: Int = ZERO_START_INDEX, end: Int = textLength, flags: Int = initialFlags) {
@@ -196,7 +198,7 @@ class SpanBuilder private constructor(
     } else {
       DrawableMarginSpan(drawable, padding)
     }
-    innerSpan.setSpan(drawableMarginSpan, start, end, flags)
+    innerSpanBuilder.setSpan(drawableMarginSpan, start, end, flags)
   }
 
   fun iconMargin(bitmap: Bitmap, padding: Int? = null, start: Int = ZERO_START_INDEX, end: Int = textLength, flags: Int = initialFlags) {
@@ -205,16 +207,16 @@ class SpanBuilder private constructor(
     } else {
       IconMarginSpan(bitmap, padding)
     }
-    innerSpan.setSpan(iconMarginSpan, start, end, flags)
+    innerSpanBuilder.setSpan(iconMarginSpan, start, end, flags)
   }
 
   fun leadingMarginStandard(first: Int? = null, rest: Int? = null, every: Int? = null, start: Int = ZERO_START_INDEX, end: Int = textLength, flags: Int = initialFlags) {
     val leadingMarginSpan = when {
       every != null -> LeadingMarginSpan.Standard(every)
       rest != null && first != null -> LeadingMarginSpan.Standard(first, rest)
-      else -> throw InvalidSpanArgumentsException("Invalid arguments, must to declare every , or both first and rest arguments")
+      else -> throw InvalidSpanArgumentsException("Invalid arguments, must to declare every, or both first and rest")
     }
-    innerSpan.setSpan(leadingMarginSpan, start, end, flags)
+    innerSpanBuilder.setSpan(leadingMarginSpan, start, end, flags)
   }
 
   fun quoteSpan(@ColorInt color: Int? = null, start: Int = ZERO_START_INDEX, end: Int = textLength, flags: Int = initialFlags) {
@@ -222,12 +224,12 @@ class SpanBuilder private constructor(
       null -> QuoteSpan()
       else -> QuoteSpan(color)
     }
-    innerSpan.setSpan(quoteSpan, start, end, flags)
+    innerSpanBuilder.setSpan(quoteSpan, start, end, flags)
   }
 
   fun tabStopStandard(offset: Int, start: Int = ZERO_START_INDEX, end: Int = textLength, flags: Int = initialFlags) {
-    innerSpan.setSpan(TabStopSpan.Standard(offset), start, end, flags)
+    innerSpanBuilder.setSpan(TabStopSpan.Standard(offset), start, end, flags)
   }
 
-  fun build() = innerSpan
+  fun build() = innerSpanBuilder
 }
