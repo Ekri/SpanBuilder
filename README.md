@@ -10,97 +10,50 @@ buildscript {
   }
 
   dependencies {
-    compile 'com.maciega.bartosz:span-builder:0.4.1'
+    implementation 'com.maciega.bartosz:span-builder:0.5.1'
   }
  ```
 
 
-First you should create instance of SpanBuilder:
+You can use SpanBuilder in two ways:
+- as a standalone builder object
 
-```java
- SpanBuilder.newInstance("your text here")
+
+```kotlin
+val builder = SpanBuilder("text") {
+      backgroundColor(ContextCompat.getColor(this@SampleActivity, R.color.colorPrimary), end = 6)
+      strikeThrough()
+    }
+    
+textView.text = builder.build()
  ```
- 
+- or with special extension function on TextView
+```kotlin
+ textView.withSpan("text") { tv ->
+      foregroundColor(ContextCompat.getColor(tv.context, R.color.colorAccent), start = 1, end = 7)
+      strikeThrough()
+      quoteSpan(end = 4)
+    }
+ ```
 ## Spans
 
 When you create instance of SpanBuilder, you can add span as follows:
     
-```java
-  SpanBuilder.newInstance("your text here")
-                .withQuote();
-```   
-
- You can chain and apply multiple spans at once:
- 
- ```java
-   SpanBuilder.newInstance("your text here")
-                .withQuote()
-                .withBullet()
-                .withUnderline()
-                .withUrl("www.customurl.com");
- ```               
+```kotlin
+  textView.withSpan(textView.text.toString()) { tv ->
+      backgroundColor(ContextCompat.getColor(tv.context, R.color.colorPrimary), end = 6)
+      foregroundColor(ContextCompat.getColor(tv.context, R.color.colorAccent), start = 1, end = 7)
+      strikeThrough()
+      quoteSpan(end = 4)
+      clickable(tv){ Toast.makeText(tv.context,"Hello Spans!", Toast.LENGTH_SHORT).show()}
+    }
+```           
 
 ### Indexes
-By default builder set startIndex to 0 and endIndex to text you provided in constructor length, you can change it:
+By default builder set startIndex to 0 and endIndex to length of text you provided in constructor but you can change it for every added span:
 
- ```java
-   SpanBuilder.newInstance("your text here")
-                .index(0,10)
-                .withQuote();
+ ```kotlin
+   textView.withSpan(textView.text.toString()) { tv ->
+     foregroundColor(ContextCompat.getColor(tv.context, R.color.colorAccent), start = 1, end = 7)
+      }
  ```
- You can apply different index per every span also:
- 
-  ```java
-       SpanBuilder.newInstance("your text here")
-                .index(0,10)
-                .withQuote()
-                .index(2,6)
-                .withBullet()
-                .index(4,8)
-                .withUnderline()
-                .index(6,8)
-                .withUrl("www.customurl.com");
-```
- 
- And you can resetIndex to default values(start=0, and end = string.length) as follows:
- 
- ```java
- SpanBuilder.newInstance(textView.getText().toString())
-                .withView(textView)
-                .index(0, 5)
-                .resetIndex();
- ```
- 
- ### As SpannableStringBuilder or apply directly on TextView
- 
- SpanBuilder can returns SpannableStringBuilder
- 
-  ```java
-      SpannableStringBuilder builder = SpanBuilder.newInstance("your text here")
-                .index(4, 8)
-                .withUnderline()
-                .build();
-  ```
-  
-  Or you can use directly with TextView
-   First add TextView:
-  
-   ```java
-      TextView textView = (TextView) findViewById(R.id.text);
-   
-      SpannableStringBuilder builder = SpanBuilder.newInstance("your text here")
-                .withView(textView)
-                .index(4, 8)
-                .withUnderline()
-                .build();
-   ```
-   And then build with it to apply spannables directly to TextView
-   
-   ```java
-      SpannableStringBuilder builder = SpanBuilder.newInstance("your text here")
-                .withView(textView)
-                .index(4, 8)
-                .withUnderline()
-                .buildWithTextView();
-   ```
-   
