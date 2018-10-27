@@ -1,4 +1,4 @@
-Wrapper for spans in Android.
+Wrapper for spans in Android written in Kotlin for Kotlin projects.
 
 # Usage
 
