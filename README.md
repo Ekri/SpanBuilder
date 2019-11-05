@@ -10,7 +10,7 @@ buildscript {
    }
 
  dependencies {
-   implementation 'com.maciega.bartosz:span-builder:0.5.1'
+   implementation 'com.maciega.bartosz:span-builder:0.5.2'
   }
  ```
 
